@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 let EDIT_LABEL_HEIGHT_HIDDEN: CGFloat = 0.0
 let EDIT_LABEL_HEIGHT_SHOWN: CGFloat = 80.0
@@ -16,6 +17,9 @@ class LocationMapViewController: UIViewController {
     // MARK: Properties
 
     @IBOutlet var editLabelHeight: NSLayoutConstraint!
+    @IBOutlet var mapView: MKMapView!
+    
+    private var newAnnotation: MKPointAnnotation?
     
     // MARK: Initialization
     
@@ -27,7 +31,36 @@ class LocationMapViewController: UIViewController {
         editLabelHeight.constant = EDIT_LABEL_HEIGHT_HIDDEN
         
     }
+    
+    // MARK: Gesture Recognizer
 
+    @IBAction func longPressDetected(_ sender: UIGestureRecognizer) {
+        
+        guard isEditing == false else {
+            return
+        }
+        
+        let touchLocation = sender.location(in: mapView)
+        let touchCoordinates = mapView.convert(touchLocation, toCoordinateFrom: mapView)
+        
+        if sender.state == .began {
+            
+            let annotation = MKPointAnnotation()
+            let centerCoordinate = touchCoordinates
+            annotation.coordinate = centerCoordinate
+            newAnnotation = annotation
+            
+            mapView.addAnnotation(annotation)
+        } else if sender.state == .changed {
+            
+            print(touchCoordinates)
+            newAnnotation?.coordinate = touchCoordinates
+        } else {
+            createNewPin()
+        }
+        
+    }
+    
     // MARK: Editing
 
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -37,6 +70,15 @@ class LocationMapViewController: UIViewController {
         UIView.animate(withDuration: 0.1) {
             self.view.layoutIfNeeded()
         }
+    }
+    
+    // MARK: Create Pin
+    
+    func createNewPin() {
+        let _ = newAnnotation
+        newAnnotation = nil
+
+        // TODO save Pin
     }
 
 
