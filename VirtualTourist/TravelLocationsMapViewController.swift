@@ -12,7 +12,7 @@ import MapKit
 let EDIT_LABEL_HEIGHT_HIDDEN: CGFloat = 0.0
 let EDIT_LABEL_HEIGHT_SHOWN: CGFloat = 80.0
 
-class LocationMapViewController: UIViewController, MKMapViewDelegate {
+class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: Properties
 
