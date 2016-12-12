@@ -76,9 +76,10 @@ class LocationMapViewController: UIViewController, MKMapViewDelegate {
     
     func createNewPin() {
         let _ = newAnnotation
-        newAnnotation = nil
         // TODO save Pin
     }
+    
+    // MARK: Map View Delegate
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if isEditing {
@@ -90,6 +91,26 @@ class LocationMapViewController: UIViewController, MKMapViewDelegate {
         let pinVC = storyboard!.instantiateViewController(withIdentifier: "PinPhotoViewController")
         // TODO Handle selected Pin
         navigationController?.pushViewController(pinVC, animated: true)
+    }
+    
+    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+        for annotationView in views {
+            guard let annotation = annotationView.annotation else {
+                continue
+            }
+            
+            // find new annotation
+            if annotation.isEqual(newAnnotation as? MKAnnotation) {
+                
+                // hide annotation
+                annotationView.frame.origin.y = annotationView.frame.origin.y - self.view.frame.size.height
+                
+                // animate drop
+                UIView.animate(withDuration: 0.4, animations: {
+                    annotationView.frame.origin.y = annotationView.frame.origin.y + self.view.frame.size.height
+                }, completion: nil)
+            }
+        }
     }
 
 
