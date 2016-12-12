@@ -14,6 +14,7 @@
 		902A45621DFEF80F008D00C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 902A45611DFEF80F008D00C2 /* Assets.xcassets */; };
 		902A45651DFEF80F008D00C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 902A45631DFEF80F008D00C2 /* LaunchScreen.storyboard */; };
 		905B873F1DFF25400062B2F9 /* PinPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905B873E1DFF25400062B2F9 /* PinPhotoViewController.swift */; };
+		905B87421DFF32250062B2F9 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905B87411DFF32250062B2F9 /* PhotoCollectionViewCell.swift */; };
 		90949C121DFF0F3A00A2BEF1 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90949C111DFF0F3A00A2BEF1 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 		902A45641DFEF80F008D00C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		902A45661DFEF80F008D00C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		905B873E1DFF25400062B2F9 /* PinPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinPhotoViewController.swift; sourceTree = "<group>"; };
+		905B87411DFF32250062B2F9 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		90949C111DFF0F3A00A2BEF1 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -46,6 +48,7 @@
 			isa = PBXGroup;
 			children = (
 				902A45561DFEF80F008D00C2 /* VirtualTourist */,
+				905B873C1DFF147C0062B2F9 /* Assets */,
 				902A45551DFEF80F008D00C2 /* Products */,
 				90949C101DFF0F3A00A2BEF1 /* Frameworks */,
 			);
@@ -63,7 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				905B873D1DFF15440062B2F9 /* Model */,
-				905B873C1DFF147C0062B2F9 /* Assets */,
+				905B87401DFF31FD0062B2F9 /* View */,
 				905B873B1DFF14700062B2F9 /* Controller */,
 				902A45571DFEF80F008D00C2 /* AppDelegate.swift */,
 				902A45661DFEF80F008D00C2 /* Info.plist */,
@@ -88,6 +91,7 @@
 				902A45631DFEF80F008D00C2 /* LaunchScreen.storyboard */,
 			);
 			name = Assets;
+			path = VirtualTourist;
 			sourceTree = "<group>";
 		};
 		905B873D1DFF15440062B2F9 /* Model */ = {
@@ -96,6 +100,14 @@
 				902A455E1DFEF80F008D00C2 /* VirtualTourist.xcdatamodeld */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		905B87401DFF31FD0062B2F9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				905B87411DFF32250062B2F9 /* PhotoCollectionViewCell.swift */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 		90949C101DFF0F3A00A2BEF1 /* Frameworks */ = {
@@ -181,6 +193,7 @@
 			files = (
 				902A455A1DFEF80F008D00C2 /* LocationMapViewController.swift in Sources */,
 				902A45581DFEF80F008D00C2 /* AppDelegate.swift in Sources */,
+				905B87421DFF32250062B2F9 /* PhotoCollectionViewCell.swift in Sources */,
 				902A45601DFEF80F008D00C2 /* VirtualTourist.xcdatamodeld in Sources */,
 				905B873F1DFF25400062B2F9 /* PinPhotoViewController.swift in Sources */,
 			);

@@ -86,10 +86,10 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="135"/>
                                     </mapView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BPV-L5-e9T" userLabel="Middle Section">
-                                        <rect key="frame" x="0.0" y="135" width="375" height="532"/>
+                                        <rect key="frame" x="0.0" y="135" width="375" height="492"/>
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="tw9-94-5wz">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="256"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="492"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="bt7-nn-wRf">
                                                     <size key="itemSize" width="150" height="150"/>
@@ -98,7 +98,7 @@
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCell" id="RR0-2Y-UhI">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCell" id="RR0-2Y-UhI" customClass="PhotoCollectionViewCell" customModule="VirtualTourist" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -121,11 +121,15 @@
                                                             <constraint firstItem="Te8-kf-YtF" firstAttribute="leading" secondItem="RR0-2Y-UhI" secondAttribute="leading" constant="2" id="fCZ-Um-Mtl"/>
                                                             <constraint firstItem="Te8-kf-YtF" firstAttribute="top" secondItem="RR0-2Y-UhI" secondAttribute="top" constant="2" id="kCt-uM-LRe"/>
                                                         </constraints>
+                                                        <connections>
+                                                            <outlet property="activityIndicator" destination="hB6-5o-2S4" id="Nwy-rK-LFJ"/>
+                                                            <outlet property="imageView" destination="Te8-kf-YtF" id="9Mg-uN-WRE"/>
+                                                        </connections>
                                                     </collectionViewCell>
                                                 </cells>
                                             </collectionView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Empty Collection" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a7L-A9-XYZ">
-                                                <rect key="frame" x="122.5" y="256" width="130" height="20.5"/>
+                                                <rect key="frame" x="122.5" y="236" width="130" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -136,18 +140,20 @@
                                             <constraint firstItem="tw9-94-5wz" firstAttribute="top" secondItem="BPV-L5-e9T" secondAttribute="top" id="59y-Hy-wyq"/>
                                             <constraint firstItem="a7L-A9-XYZ" firstAttribute="centerY" secondItem="BPV-L5-e9T" secondAttribute="centerY" id="JOt-3f-De8"/>
                                             <constraint firstAttribute="trailing" secondItem="tw9-94-5wz" secondAttribute="trailing" id="NNr-2t-Iwn"/>
-                                            <constraint firstAttribute="bottom" secondItem="tw9-94-5wz" secondAttribute="bottom" constant="276" id="f3t-N5-hOB"/>
+                                            <constraint firstAttribute="bottom" secondItem="tw9-94-5wz" secondAttribute="bottom" id="f3t-N5-hOB"/>
                                             <constraint firstItem="a7L-A9-XYZ" firstAttribute="centerX" secondItem="BPV-L5-e9T" secondAttribute="centerX" id="gBS-ap-dhV"/>
                                             <constraint firstItem="tw9-94-5wz" firstAttribute="leading" secondItem="BPV-L5-e9T" secondAttribute="leading" id="sh0-20-OcK"/>
                                         </constraints>
                                     </view>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WCc-ht-Ej8">
-                                        <rect key="frame" x="0.0" y="667" width="375" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="627" width="375" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="s3s-6e-qlr"/>
                                         </constraints>
                                         <items>
-                                            <barButtonItem title="Item" id="5hX-7K-6dP"/>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="iqY-vt-xLu"/>
+                                            <barButtonItem title="New Collection" id="5hX-7K-6dP" userLabel="PhotoCollectionToolbarButton"/>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="I4g-HY-BFX"/>
                                         </items>
                                     </toolbar>
                                 </subviews>
@@ -164,6 +170,10 @@
                             <constraint firstAttribute="trailing" secondItem="fdj-oe-b0o" secondAttribute="trailing" id="zCt-Sl-gWP"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="emptyCollectionLabel" destination="a7L-A9-XYZ" id="CgX-ju-1Z4"/>
+                        <outlet property="mapView" destination="GPM-XB-cmu" id="Jov-hQ-Asi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="foO-gQ-SXJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

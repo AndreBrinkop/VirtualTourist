@@ -7,9 +7,13 @@
 //
 
 import UIKit
+import MapKit
 
 class PinPhotoViewController: UIViewController {
 
+    @IBOutlet var mapView: MKMapView!
+    @IBOutlet var emptyCollectionLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
