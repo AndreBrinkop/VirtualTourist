@@ -9,9 +9,6 @@
 import UIKit
 import MapKit
 
-let EDIT_LABEL_HEIGHT_HIDDEN: CGFloat = 0.0
-let EDIT_LABEL_HEIGHT_SHOWN: CGFloat = 80.0
-
 class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: Properties
@@ -21,15 +18,39 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
     
     private var newAnnotation: MKPointAnnotation?
     
+    let userDefaults = UserDefaults.standard
+    
     // MARK: Initialization
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadStoredMapRegion()
+        
         navigationItem.rightBarButtonItem = editButtonItem
         
-        editLabelHeight.constant = EDIT_LABEL_HEIGHT_HIDDEN
+        editLabelHeight.constant = Constants.userInterface.editLabelHeightHidden
         
+        if let savedRegion = userDefaults.value(forKey: "region") as? MKCoordinateRegion {
+            mapView.region = savedRegion
+        }
+        
+    }
+    
+    func loadStoredMapRegion() {
+        
+        func loadRegionParam(_ key: String) -> CLLocationDegrees? {
+            return userDefaults.object(forKey: key) as? CLLocationDegrees
+        }
+        
+        if let mapLatitude = loadRegionParam(Constants.userDefaults.mapLatitude),
+            let mapLongitude = loadRegionParam(Constants.userDefaults.mapLongitude),
+            let mapLatitudeDelta = loadRegionParam(Constants.userDefaults.mapLatitudeDelta),
+            let mapLongitudeDelta = loadRegionParam(Constants.userDefaults.mapLongitudeDelta) {
+            
+            mapView.region.center = CLLocationCoordinate2D(latitude: mapLatitude, longitude: mapLongitude)
+            mapView.region.span = MKCoordinateSpanMake(mapLatitudeDelta, mapLongitudeDelta)
+        }
     }
     
     // MARK: Gesture Recognizer
@@ -66,7 +87,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         
-        editLabelHeight.constant = editing ? EDIT_LABEL_HEIGHT_SHOWN : EDIT_LABEL_HEIGHT_HIDDEN
+        editLabelHeight.constant = editing ? Constants.userInterface.editLabelHeightShown : Constants.userInterface.editLabelHeightHidden
         UIView.animate(withDuration: 0.1) {
             self.view.layoutIfNeeded()
         }
@@ -111,6 +132,13 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
                 }, completion: nil)
             }
         }
+    }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        userDefaults.set(mapView.region.center.latitude, forKey: Constants.userDefaults.mapLatitude)
+        userDefaults.set(mapView.region.center.longitude, forKey: Constants.userDefaults.mapLongitude)
+        userDefaults.set(mapView.region.span.latitudeDelta, forKey: Constants.userDefaults.mapLatitudeDelta)
+        userDefaults.set(mapView.region.span.longitudeDelta, forKey: Constants.userDefaults.mapLongitudeDelta)
     }
 
 
