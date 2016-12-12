@@ -31,10 +31,6 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
         
         editLabelHeight.constant = Constants.userInterface.editLabelHeightHidden
         
-        if let savedRegion = userDefaults.value(forKey: "region") as? MKCoordinateRegion {
-            mapView.region = savedRegion
-        }
-        
     }
     
     func loadStoredMapRegion() {

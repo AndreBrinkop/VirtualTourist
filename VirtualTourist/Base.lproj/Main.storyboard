@@ -70,7 +70,7 @@
         <!--Photo Album View Controller-->
         <scene sceneID="DS8-ub-q60">
             <objects>
-                <viewController storyboardIdentifier="PinPhotoViewController" id="Xuv-c2-fdJ" customClass="PhotoAlbumViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhotoAlbumViewController" id="Xuv-c2-fdJ" customClass="PhotoAlbumViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Z3e-P3-uDN"/>
                         <viewControllerLayoutGuide type="bottom" id="0Kw-Gd-Q0A"/>

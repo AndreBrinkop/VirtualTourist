@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class PinPhotoViewController: UIViewController {
+class PhotoAlbumViewController: UIViewController {
 
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var emptyCollectionLabel: UILabel!
