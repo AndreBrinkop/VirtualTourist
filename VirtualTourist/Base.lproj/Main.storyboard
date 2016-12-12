@@ -25,6 +25,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <gestureRecognizers/>
                                 <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="OdG-q2-vnK"/>
                                     <outletCollection property="gestureRecognizers" destination="Akr-lB-ksx" appends="YES" id="kAe-pr-cqz"/>
                                 </connections>
                             </mapView>
@@ -64,6 +65,24 @@
                 </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1056.8" y="122.78860569715144"/>
+        </scene>
+        <!--Pin Photo View Controller-->
+        <scene sceneID="DS8-ub-q60">
+            <objects>
+                <viewController storyboardIdentifier="PinPhotoViewController" id="Xuv-c2-fdJ" customClass="PinPhotoViewController" customModule="VirtualTourist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Z3e-P3-uDN"/>
+                        <viewControllerLayoutGuide type="bottom" id="0Kw-Gd-Q0A"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tf0-yh-MDt">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="foO-gQ-SXJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1874" y="123"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="bkG-e2-uYV">

@@ -13,6 +13,7 @@
 		902A45601DFEF80F008D00C2 /* VirtualTourist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 902A455E1DFEF80F008D00C2 /* VirtualTourist.xcdatamodeld */; };
 		902A45621DFEF80F008D00C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 902A45611DFEF80F008D00C2 /* Assets.xcassets */; };
 		902A45651DFEF80F008D00C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 902A45631DFEF80F008D00C2 /* LaunchScreen.storyboard */; };
+		905B873F1DFF25400062B2F9 /* PinPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905B873E1DFF25400062B2F9 /* PinPhotoViewController.swift */; };
 		90949C121DFF0F3A00A2BEF1 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90949C111DFF0F3A00A2BEF1 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,7 @@
 		902A45611DFEF80F008D00C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		902A45641DFEF80F008D00C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		902A45661DFEF80F008D00C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		905B873E1DFF25400062B2F9 /* PinPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinPhotoViewController.swift; sourceTree = "<group>"; };
 		90949C111DFF0F3A00A2BEF1 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -73,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				902A45591DFEF80F008D00C2 /* LocationMapViewController.swift */,
+				905B873E1DFF25400062B2F9 /* PinPhotoViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -179,6 +182,7 @@
 				902A455A1DFEF80F008D00C2 /* LocationMapViewController.swift in Sources */,
 				902A45581DFEF80F008D00C2 /* AppDelegate.swift in Sources */,
 				902A45601DFEF80F008D00C2 /* VirtualTourist.xcdatamodeld in Sources */,
+				905B873F1DFF25400062B2F9 /* PinPhotoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

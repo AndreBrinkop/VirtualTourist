@@ -12,7 +12,7 @@ import MapKit
 let EDIT_LABEL_HEIGHT_HIDDEN: CGFloat = 0.0
 let EDIT_LABEL_HEIGHT_SHOWN: CGFloat = 80.0
 
-class LocationMapViewController: UIViewController {
+class LocationMapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: Properties
 
@@ -77,8 +77,19 @@ class LocationMapViewController: UIViewController {
     func createNewPin() {
         let _ = newAnnotation
         newAnnotation = nil
-
         // TODO save Pin
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if isEditing {
+            mapView.removeAnnotation(view.annotation!)
+            // TODO Delete Pin
+            return
+        }
+        
+        let pinVC = storyboard!.instantiateViewController(withIdentifier: "PinPhotoViewController")
+        // TODO Handle selected Pin
+        navigationController?.pushViewController(pinVC, animated: true)
     }
 
 
