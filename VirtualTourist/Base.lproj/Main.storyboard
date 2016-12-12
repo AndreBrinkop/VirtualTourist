@@ -21,35 +21,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="bQI-a2-sBF">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <subviews>
-                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="0jg-JQ-yhn">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="523"/>
-                                        <gestureRecognizers/>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="Akr-lB-ksx" appends="YES" id="kAe-pr-cqz"/>
-                                        </connections>
-                                    </mapView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pins to Delete" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V0b-Fo-9kf">
-                                        <rect key="frame" x="0.0" y="523" width="375" height="80"/>
-                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="80" id="S2d-lt-SYB"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="0jg-JQ-yhn">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="Akr-lB-ksx" appends="YES" id="kAe-pr-cqz"/>
+                                </connections>
+                            </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pins to Delete" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V0b-Fo-9kf">
+                                <rect key="frame" x="0.0" y="587" width="375" height="80"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="S2d-lt-SYB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="bQI-a2-sBF" secondAttribute="trailing" id="4TO-fI-Z65"/>
-                            <constraint firstItem="bQI-a2-sBF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="MZ7-OQ-i4n"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="bQI-a2-sBF" secondAttribute="bottom" id="TeJ-aQ-pec"/>
-                            <constraint firstItem="bQI-a2-sBF" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Zrt-9o-v32"/>
+                            <constraint firstItem="0jg-JQ-yhn" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Eam-C2-lMf"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="0jg-JQ-yhn" secondAttribute="bottom" id="IaR-vy-dj2"/>
+                            <constraint firstAttribute="trailing" secondItem="0jg-JQ-yhn" secondAttribute="trailing" id="Iw9-W7-0mK"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="V0b-Fo-9kf" secondAttribute="bottom" id="QLN-SG-5IA"/>
+                            <constraint firstItem="0jg-JQ-yhn" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="QYI-MF-lQD"/>
+                            <constraint firstItem="V0b-Fo-9kf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Vd6-t2-PXd"/>
+                            <constraint firstAttribute="trailing" secondItem="V0b-Fo-9kf" secondAttribute="trailing" id="XGe-5Z-yfc"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Virtual Tourist" id="q0A-HR-WRA"/>
