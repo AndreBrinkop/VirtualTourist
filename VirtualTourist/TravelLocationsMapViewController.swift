@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 import MapKit
 
 class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
@@ -16,16 +17,23 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet var editLabelHeight: NSLayoutConstraint!
     @IBOutlet var mapView: MKMapView!
     
-    private var newAnnotation: MKPointAnnotation?
+    private var newAnnotation: PinAnnotation?
     
     let userDefaults = UserDefaults.standard
+    var context: NSManagedObjectContext!
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     // MARK: Initialization
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Initialize context
+        context = appDelegate.persistentContainer.viewContext
+        
         loadStoredMapRegion()
+        loadStoredPins()
         
         navigationItem.rightBarButtonItem = editButtonItem
         
@@ -34,7 +42,6 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
     }
     
     func loadStoredMapRegion() {
-        
         func loadRegionParam(_ key: String) -> CLLocationDegrees? {
             return userDefaults.object(forKey: key) as? CLLocationDegrees
         }
@@ -49,28 +56,44 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    func loadStoredPins() {
+        let request: NSFetchRequest<Pin> = Pin.fetchRequest()
+
+        do {
+            let pins = try context.fetch(request)
+            for pin in pins {
+                showPin(pin: pin)
+            }
+        } catch {
+            appDelegate.showErrorMessage(title: "Could not fetch stored Map Pins")
+        }
+    }
+    
+    private func showPin(pin: Pin) {
+        let annotationCoordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
+        let annotation = PinAnnotation(coordinate: annotationCoordinate)
+        annotation.pin = pin
+        
+        newAnnotation = annotation
+        mapView.addAnnotation(annotation)
+    }
+    
     // MARK: Gesture Recognizer
 
     @IBAction func longPressDetected(_ sender: UIGestureRecognizer) {
-        
         guard isEditing == false else {
             return
         }
         
         let touchLocation = sender.location(in: mapView)
-        let touchCoordinates = mapView.convert(touchLocation, toCoordinateFrom: mapView)
+        let touchCoordinate = mapView.convert(touchLocation, toCoordinateFrom: mapView)
         
-        if sender.state == .began {
-            
-            let annotation = MKPointAnnotation()
-            let centerCoordinate = touchCoordinates
-            annotation.coordinate = centerCoordinate
-            newAnnotation = annotation
-            
-            mapView.addAnnotation(annotation)
-        } else if sender.state == .changed {
-            newAnnotation?.coordinate = touchCoordinates
-        } else {
+        switch sender.state {
+        case .began:
+            createNewAnnotation(coordinate: touchCoordinate)
+        case .changed:
+            newAnnotation?.coordinate = touchCoordinate
+        default:
             createNewPin()
         }
         
@@ -87,11 +110,19 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    // MARK: Create Annotation
+    
+    func createNewAnnotation(coordinate: CLLocationCoordinate2D) {
+        let annotation = PinAnnotation(coordinate: coordinate)
+        newAnnotation = annotation
+        mapView.addAnnotation(annotation)
+    }
+    
     // MARK: Create Pin
     
     func createNewPin() {
-        let _ = newAnnotation
-        // TODO save Pin
+        let pin: Pin = Pin(coordinate: newAnnotation!.coordinate, context: context)
+        newAnnotation?.pin = pin
     }
     
     // MARK: Map View Delegate

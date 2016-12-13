@@ -13,10 +13,6 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
-    func applicationDidFinishLaunching(_ application: UIApplication) {
-
-    }
 
     func applicationWillTerminate(_ application: UIApplication) {
         self.saveContext()
@@ -50,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: Show error message
     
-    func showErrorMessage(title: String, message: String) {
+    func showErrorMessage(title: String, message: String? = nil) {
         DispatchQueue.main.async {
             let alertController: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
