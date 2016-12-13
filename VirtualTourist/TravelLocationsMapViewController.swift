@@ -73,8 +73,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
         let annotationCoordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
         let annotation = PinAnnotation(coordinate: annotationCoordinate)
         annotation.pin = pin
-        
-        newAnnotation = annotation
+
         mapView.addAnnotation(annotation)
     }
     
