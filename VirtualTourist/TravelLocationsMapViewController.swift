@@ -69,8 +69,6 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
             
             mapView.addAnnotation(annotation)
         } else if sender.state == .changed {
-            
-            print(touchCoordinates)
             newAnnotation?.coordinate = touchCoordinates
         } else {
             createNewPin()
@@ -105,7 +103,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
             return
         }
         
-        let pinVC = storyboard!.instantiateViewController(withIdentifier: "PinPhotoViewController")
+        let pinVC = storyboard!.instantiateViewController(withIdentifier: "PhotoAlbumViewController")
         // TODO Handle selected Pin
         navigationController?.pushViewController(pinVC, animated: true)
     }
