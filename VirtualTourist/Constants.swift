@@ -26,4 +26,13 @@ struct Constants {
         static let mapLatitudeDelta = "mapLatitudeDelta"
         static let mapLongitudeDelta = "mapLongitudeDelta"
     }
+    
+    private struct apiKeyNames {
+        static let flickr = "FLICKR_API_KEY"
+    }
+    
+    struct apiKeys {
+        static let plistName = "ApiKeys"
+        static let flickr = getAPIKey(apiKeyNames.flickr)
+    }
 }
