@@ -16,17 +16,22 @@ class FlickrClient {
     // MARK: Retrieve picture URLs for location
     
     static func getImageURLsForLocation(coordinate: CLLocationCoordinate2D, completionHandler: @escaping (_ urls: [URL]?, _ error: Error?) -> ()) {
+        let completionHandlerMainThread: (_ urls: [URL]?, _ error: Error?) -> () = { urls, error in
+            DispatchQueue.main.async {
+                completionHandler(urls, error)
+            }
+        }
         
         let searchURL = createGetImageURLsForLocationURL(coordinate: coordinate, page: 1)
         
         executeSearchRequestAndParsePhotosObject(url: searchURL) { photos, error in
             guard let photos = photos, error == nil else {
-                completionHandler(nil, error)
+                completionHandlerMainThread(nil, error)
                 return
             }
 
             guard let availablePages = photos[jsonResponseKeys.pages] as? Int else {
-                completionHandler(nil, createAPIError())
+                completionHandlerMainThread(nil, createAPIError())
                 return
             }
             
@@ -38,7 +43,7 @@ class FlickrClient {
             
             // Do not grab page one again if it is selected
             guard availablePages > 1 else {
-                parsePhotoURLsFromPhotosObject(photosObject: photos, completionHandler: completionHandler)
+                parsePhotoURLsFromPhotosObject(photosObject: photos, completionHandler: completionHandlerMainThread)
                 return
             }
             
@@ -47,10 +52,10 @@ class FlickrClient {
             
             executeSearchRequestAndParsePhotosObject(url: searchURLWithRandomPage) { photos, error in
                 guard let photos = photos, error == nil else {
-                    completionHandler(nil, error)
+                    completionHandlerMainThread(nil, error)
                     return
                 }
-                parsePhotoURLsFromPhotosObject(photosObject: photos, completionHandler: completionHandler)
+                parsePhotoURLsFromPhotosObject(photosObject: photos, completionHandler: completionHandlerMainThread)
             }
         }
     }
@@ -58,15 +63,20 @@ class FlickrClient {
     // MARK: Retrieve a picture
     
     static func getImageForPath(path: URL, completionHandler: @escaping (_ image: UIImage?, _ error: Error?) -> ()) {
+        let completionHandlerMainThread: (_ image: UIImage?, _ error: Error?) -> () = { image, error in
+            DispatchQueue.main.async {
+                completionHandler(image, error)
+            }
+        }
         
         HTTPClient.getRequest(url: path, headerFields: nil) { data, error in
             
             guard let data = data, error == nil else {
-                completionHandler(nil, error)
+                completionHandlerMainThread(nil, error)
                 return
             }
             
-            completionHandler(UIImage(data: data), nil)
+            completionHandlerMainThread(UIImage(data: data), nil)
         }
     }
     

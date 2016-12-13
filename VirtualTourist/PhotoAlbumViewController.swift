@@ -32,11 +32,10 @@ class PhotoAlbumViewController: UIViewController {
         annotation.pin = pin
         mapView.addAnnotation(annotation)
         
+        // Set map region
         let mapSpan = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         let mapRegion = MKCoordinateRegionMake(pin.coordinate, mapSpan)
         mapView.setRegion(mapRegion, animated: false)
-        
-
     }
 
 }
