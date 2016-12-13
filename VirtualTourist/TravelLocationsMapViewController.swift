@@ -124,12 +124,33 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
         newAnnotation?.pin = pin
     }
     
+    // MARK: Delete Pin
+    
+    func deletePin(pin: Pin) {
+        context.delete(pin)
+        appDelegate.saveContext()
+    }
+    
     // MARK: Map View Delegate
     
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+    func mapView(_ mapView: MKMapView, didSelect annotationView: MKAnnotationView) {
         if isEditing {
-            mapView.removeAnnotation(view.annotation!)
-            // TODO Delete Pin
+            guard let annotation = annotationView.annotation as? PinAnnotation else {
+                return
+            }
+            
+            // animate rise
+            UIView.animate(withDuration: 0.4, animations: {
+                annotationView.frame.origin.y = annotationView.frame.origin.y - self.view.frame.size.height
+            }, completion: { success in
+                mapView.removeAnnotation(annotation)
+            })
+            
+            guard let pin = annotation.pin else {
+                return
+            }
+            
+            deletePin(pin: pin)
             return
         }
         
