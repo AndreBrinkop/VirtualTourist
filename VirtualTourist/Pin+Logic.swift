@@ -12,6 +12,16 @@ import CoreData
 
 extension Pin {
     
+    // MARK: Properties
+    
+    var coordinate: CLLocationCoordinate2D {
+        get {
+            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
+    }
+    
+    // MARK: Initialization
+    
     convenience init(coordinate: CLLocationCoordinate2D, context: NSManagedObjectContext) {
         guard let entity = NSEntityDescription.entity(forEntityName: "Pin", in: context) else {
             fatalError("Unable to find Entity name!")

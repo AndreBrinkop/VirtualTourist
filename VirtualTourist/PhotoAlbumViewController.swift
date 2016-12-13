@@ -10,14 +10,33 @@ import UIKit
 import MapKit
 
 class PhotoAlbumViewController: UIViewController {
+    
+    // MARK: Properties
 
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var emptyCollectionLabel: UILabel!
     
+    var pin: Pin!
+    
+    // MARK: Initialization
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        initializeMapView()
+    }
+    
+    func initializeMapView() {
+        // Set annotation
+        let annotation = PinAnnotation(coordinate: pin.coordinate)
+        annotation.pin = pin
+        mapView.addAnnotation(annotation)
+        
+        let mapSpan = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        let mapRegion = MKCoordinateRegionMake(pin.coordinate, mapSpan)
+        mapView.setRegion(mapRegion, animated: false)
+        
+
     }
 
 }

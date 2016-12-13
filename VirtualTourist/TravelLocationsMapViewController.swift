@@ -134,10 +134,18 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
     // MARK: Map View Delegate
     
     func mapView(_ mapView: MKMapView, didSelect annotationView: MKAnnotationView) {
+        guard let annotation = annotationView.annotation as? PinAnnotation else {
+            return
+        }
+        
+        mapView.deselectAnnotation(annotation, animated: true)
+
+        guard let pin = annotation.pin else {
+            return
+        }
+        
         if isEditing {
-            guard let annotation = annotationView.annotation as? PinAnnotation else {
-                return
-            }
+            // Delete Pin
             
             // animate rise
             UIView.animate(withDuration: 0.4, animations: {
@@ -145,17 +153,14 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
             }, completion: { success in
                 mapView.removeAnnotation(annotation)
             })
-            
-            guard let pin = annotation.pin else {
-                return
-            }
-            
+
             deletePin(pin: pin)
             return
         }
         
-        let pinVC = storyboard!.instantiateViewController(withIdentifier: "PhotoAlbumViewController")
-        // TODO Handle selected Pin
+        // Show Photo Album
+        let pinVC = storyboard!.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
+        pinVC.pin = pin
         navigationController?.pushViewController(pinVC, animated: true)
     }
     
