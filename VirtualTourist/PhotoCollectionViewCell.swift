@@ -1,5 +1,5 @@
 //
-//  PictureCollectionViewCell.swift
+//  PhotoCollectionViewCell.swift
 //  VirtualTourist
 //
 //  Created by André Brinkop on 12.12.16.
