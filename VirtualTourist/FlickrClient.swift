@@ -36,10 +36,6 @@ class FlickrClient {
             }
             
             let randomPage = Int(arc4random_uniform(UInt32(availablePages)) + 1)
-
-            if availablePages == 1 || randomPage == 1 {
-                
-            }
             
             // Do not grab page one again if it is selected
             guard availablePages > 1 else {
@@ -159,7 +155,6 @@ class FlickrClient {
             parameterKeys.bbox : bbox,
             parameterKeys.safeSearch : parameterValues.useSafeSearch,
             parameterKeys.contentType : parameterValues.contentTypePhotos,
-            parameterKeys.geoContext : parameterValues.geoContextOutdoors,
             parameterKeys.extras : parameterValues.mediumURL,
             parameterKeys.perPage : parameterValues.defaultPerPage,
             parameterKeys.page : page
