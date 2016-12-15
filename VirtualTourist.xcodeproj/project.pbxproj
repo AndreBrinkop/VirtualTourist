@@ -21,6 +21,7 @@
 		905B874D1E0012900062B2F9 /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 905B874C1E0012900062B2F9 /* ApiKeys.plist */; };
 		905B87501E0012CE0062B2F9 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905B874F1E0012CE0062B2F9 /* ApiKeys.swift */; };
 		90949C121DFF0F3A00A2BEF1 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90949C111DFF0F3A00A2BEF1 /* MapKit.framework */; };
+		90B9DAB81E00783F0030E7AE /* Photo+Logic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B9DAB71E00783F0030E7AE /* Photo+Logic.swift */; };
 		90C9DFF21E00301D00F52F72 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C9DFF11E00301D00F52F72 /* HTTPClient.swift */; };
 		90C9DFF41E00633100F52F72 /* Pin+Logic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C9DFF31E00633100F52F72 /* Pin+Logic.swift */; };
 		90C9DFF61E00671300F52F72 /* PinAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C9DFF51E00671300F52F72 /* PinAnnotation.swift */; };
@@ -43,6 +44,7 @@
 		905B874C1E0012900062B2F9 /* ApiKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ApiKeys.plist; sourceTree = "<group>"; };
 		905B874F1E0012CE0062B2F9 /* ApiKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		90949C111DFF0F3A00A2BEF1 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		90B9DAB71E00783F0030E7AE /* Photo+Logic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Photo+Logic.swift"; sourceTree = "<group>"; };
 		90C9DFF11E00301D00F52F72 /* HTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		90C9DFF31E00633100F52F72 /* Pin+Logic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Pin+Logic.swift"; sourceTree = "<group>"; };
 		90C9DFF51E00671300F52F72 /* PinAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinAnnotation.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				905B87451DFF3CDD0062B2F9 /* Clients */,
 				902A455E1DFEF80F008D00C2 /* VirtualTourist.xcdatamodeld */,
 				90C9DFF31E00633100F52F72 /* Pin+Logic.swift */,
+				90B9DAB71E00783F0030E7AE /* Photo+Logic.swift */,
 				90C9DFF51E00671300F52F72 /* PinAnnotation.swift */,
 			);
 			name = Model;
@@ -242,6 +245,7 @@
 			files = (
 				90C9DFF61E00671300F52F72 /* PinAnnotation.swift in Sources */,
 				905B87491DFF3CF40062B2F9 /* FlickrConstants.swift in Sources */,
+				90B9DAB81E00783F0030E7AE /* Photo+Logic.swift in Sources */,
 				902A455A1DFEF80F008D00C2 /* TravelLocationsMapViewController.swift in Sources */,
 				905B87501E0012CE0062B2F9 /* ApiKeys.swift in Sources */,
 				902A45581DFEF80F008D00C2 /* AppDelegate.swift in Sources */,

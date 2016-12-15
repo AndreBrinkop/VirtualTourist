@@ -1,5 +1,5 @@
 //
-//  AnnotationPin.swift
+//  PinAnnotation.swift
 //  VirtualTourist
 //
 //  Created by André Brinkop on 13.12.16.
