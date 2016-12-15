@@ -62,10 +62,10 @@ class FlickrClient {
     
     // MARK: Retrieve a picture
     
-    static func getImageForPath(path: URL, completionHandler: @escaping (_ image: UIImage?, _ error: Error?) -> ()) {
-        let completionHandlerMainThread: (_ image: UIImage?, _ error: Error?) -> () = { image, error in
+    static func getImageDataForPath(path: URL, completionHandler: @escaping (_ imageData: Data?, _ error: Error?) -> ()) {
+        let completionHandlerMainThread: (_ imageData: Data?, _ error: Error?) -> () = { imageData, error in
             DispatchQueue.main.async {
-                completionHandler(image, error)
+                completionHandler(imageData, error)
             }
         }
         
@@ -76,7 +76,7 @@ class FlickrClient {
                 return
             }
             
-            completionHandlerMainThread(UIImage(data: data), nil)
+            completionHandlerMainThread(data, nil)
         }
     }
     
@@ -125,18 +125,22 @@ class FlickrClient {
         
         // Select random photos
         let shuffledPhotoArray = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: photoArray)
-        for index in 0 ... min(shuffledPhotoArray.count, Constants.defaults.photoAlbumSize) - 1 {
-            let photoObject = shuffledPhotoArray[index] as? [String: AnyObject]
-            
-            guard let urlMediumString = photoObject?[jsonResponseKeys.mediumURL] as? String else {
-                continue
+        let upperBound = min(shuffledPhotoArray.count, Constants.defaults.photoAlbumSize) - 1
+        
+        if upperBound > 0 {
+            for index in 0 ... upperBound {
+                let photoObject = shuffledPhotoArray[index] as? [String: AnyObject]
+                
+                guard let urlMediumString = photoObject?[jsonResponseKeys.mediumURL] as? String else {
+                    continue
+                }
+                
+                guard let urlMedium = URL(string: urlMediumString) else {
+                    continue
+                }
+                
+                photoURLs.append(urlMedium)
             }
-            
-            guard let urlMedium = URL(string: urlMediumString) else {
-                continue
-            }
-            
-            photoURLs.append(urlMedium)
         }
         
         completionHandler(photoURLs, nil)
