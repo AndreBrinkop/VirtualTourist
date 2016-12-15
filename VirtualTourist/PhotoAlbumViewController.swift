@@ -58,14 +58,14 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
         
         // reset cell
         photoCell.imageView.image = nil
-        photoCell.activityIndicator.isHidden = false
+        photoCell.activityIndicator.startAnimating()
 
         let photo = sortedPhotos[indexPath.row]
         
         if let imageData = photo.imageData {
             let image = UIImage(data: imageData as Data)
             photoCell.imageView.image = image
-            photoCell.activityIndicator.isHidden = true
+            photoCell.activityIndicator.stopAnimating()
         }
 
         return photoCell

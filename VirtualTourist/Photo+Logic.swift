@@ -20,6 +20,34 @@ extension Photo {
         }
         
         self.init(entity: entity, insertInto: context)
+        
         self.path = url.absoluteString
+        
+        loadImage()
     }
+    
+    func loadImage() {
+        FlickrClient.getImageDataForPath(path: URL(string: path!)!) { imageData, error in
+            guard let imageData = imageData, error == nil else {
+                return
+            }
+            
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.persistentContainer.performBackgroundTask() { block in
+                // Copy photo to background context
+                let photo = block.object(with: self.objectID) as! Photo
+                
+                photo.imageData = imageData as NSData
+                
+                do {
+                    try block.save()
+                } catch {
+                    let nsError = error as NSError
+                    appDelegate.showErrorMessage(title: "Could not save Photo!", message: nsError.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    
 }

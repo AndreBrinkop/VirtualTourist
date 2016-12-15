@@ -27,6 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.showErrorMessage(title: "Could not load persistent Store", message: error.localizedDescription)
             }
         })
+        
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        
         return container
     }()
 
@@ -46,10 +49,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: Show error message
     
+    private var currentlyShowingError: Bool = false
     func showErrorMessage(title: String, message: String? = nil) {
+        // Don't flood the user with error messages
+        if currentlyShowingError {
+            return
+        }
+        
+        currentlyShowingError = true
         DispatchQueue.main.async {
             let alertController: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: {action in
+                self.currentlyShowingError = false
+            }))
             self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
         }
     }
