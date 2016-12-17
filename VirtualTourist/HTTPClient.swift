@@ -57,7 +57,7 @@ class HTTPClient {
         
         let task = session.dataTask(with: request) { (data, response, error) in
             
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            networkActivityIndicator(isVisible: false)
             
             if let responseError = checkForError(data: data, response: response, error: error) {
                 completionHandler(nil, responseError)
@@ -67,7 +67,7 @@ class HTTPClient {
             completionHandler(data, nil)
         }
         task.resume()
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        networkActivityIndicator(isVisible: true)
     }
     
     // MARK: Parse data
@@ -119,6 +119,20 @@ class HTTPClient {
             return method.replacingOccurrences(of: "<\(key)>", with: value)
         } else {
             return nil
+        }
+    }
+    
+    // MARK: Network Activity Indicator
+    
+    private static var activityCounter: Int = 0
+    
+    static func networkActivityIndicator(isVisible: Bool) {
+        activityCounter += isVisible ? 1 : -1
+        
+        if activityCounter < 1 {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        } else {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
     }
     
