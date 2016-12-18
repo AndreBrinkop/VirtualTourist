@@ -35,11 +35,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Core Data Saving support
 
-    func saveContext () {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
+    func saveContext (_ context: NSManagedObjectContext? = nil) {
+        var contextToSave = persistentContainer.viewContext
+        
+        if let context = context {
+            contextToSave = context
+        }
+        if contextToSave.hasChanges {
             do {
-                try context.save()
+                try contextToSave.save()
             } catch {
                 let nserror = error as NSError
                 self.showErrorMessage(title: "Could not save data", message: nserror.localizedDescription)

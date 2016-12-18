@@ -21,7 +21,7 @@ extension Photo {
         
         self.init(entity: entity, insertInto: context)
         
-        self.path = url.absoluteString
+        path = url.absoluteString
         
         loadImage()
     }

@@ -132,21 +132,30 @@
                                                     <outlet property="dataSource" destination="Xuv-c2-fdJ" id="Sb5-Qu-jrr"/>
                                                 </connections>
                                             </collectionView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Empty Collection" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a7L-A9-XYZ">
-                                                <rect key="frame" x="122.5" y="171" width="130" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Xtt-e0-XsD">
+                                                <rect key="frame" x="124" y="147.5" width="128.5" height="67.5"/>
+                                                <subviews>
+                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="jZt-vK-adR">
+                                                        <rect key="frame" x="46" y="0.0" width="37" height="37"/>
+                                                        <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </activityIndicatorView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading Photos.." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a7L-A9-XYZ">
+                                                        <rect key="frame" x="0.0" y="47" width="128.5" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="tw9-94-5wz" firstAttribute="top" secondItem="BPV-L5-e9T" secondAttribute="top" id="59y-Hy-wyq"/>
-                                            <constraint firstItem="a7L-A9-XYZ" firstAttribute="centerY" secondItem="BPV-L5-e9T" secondAttribute="centerY" id="JOt-3f-De8"/>
+                                            <constraint firstItem="Xtt-e0-XsD" firstAttribute="centerX" secondItem="BPV-L5-e9T" secondAttribute="centerX" id="MQ6-68-Fu2"/>
                                             <constraint firstAttribute="trailing" secondItem="tw9-94-5wz" secondAttribute="trailing" id="NNr-2t-Iwn"/>
                                             <constraint firstAttribute="bottom" secondItem="tw9-94-5wz" secondAttribute="bottom" id="f3t-N5-hOB"/>
-                                            <constraint firstItem="a7L-A9-XYZ" firstAttribute="centerX" secondItem="BPV-L5-e9T" secondAttribute="centerX" id="gBS-ap-dhV"/>
                                             <constraint firstItem="tw9-94-5wz" firstAttribute="leading" secondItem="BPV-L5-e9T" secondAttribute="leading" id="sh0-20-OcK"/>
+                                            <constraint firstItem="Xtt-e0-XsD" firstAttribute="centerY" secondItem="BPV-L5-e9T" secondAttribute="centerY" id="tgE-sC-Di4"/>
                                         </constraints>
                                     </view>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WCc-ht-Ej8">

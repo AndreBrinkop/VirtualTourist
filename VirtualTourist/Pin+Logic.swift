@@ -29,11 +29,12 @@ extension Pin {
         
         self.init(entity: entity, insertInto: context)
         
-        self.latitude = coordinate.latitude
-        self.longitude = coordinate.longitude
+        latitude = coordinate.latitude
+        longitude = coordinate.longitude
+        loadedPhotos = false
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.saveContext()
+        appDelegate.saveContext(context)
         
         loadNewPhotos()
     }
@@ -43,14 +44,26 @@ extension Pin {
         if photos!.count > 0 {
             return
         }
+        loadedPhotos = false
         
         FlickrClient.getImageURLsForLocation(coordinate: coordinate) { urls, error in
-            guard let urls = urls, error == nil else {
-                return
-            }
-
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.persistentContainer.performBackgroundTask() { block in
+                func saveBlock() {
+                    do {
+                        try block.save()
+                    } catch {
+                        let nsError = error as NSError
+                        appDelegate.showErrorMessage(title: "Could not save Pin!", message: nsError.localizedDescription)
+                    }
+                }
+                
+                guard let urls = urls, error == nil else {
+                    self.loadedPhotos = true
+                    saveBlock()
+                    return
+                }
+                
                 // Copy pin to background context
                 let pin = block.object(with: self.objectID) as! Pin
                 
@@ -59,12 +72,7 @@ extension Pin {
                     photo.pin = pin
                 }
                 
-                do {
-                try block.save()
-                } catch {
-                    let nsError = error as NSError
-                    appDelegate.showErrorMessage(title: "Could not save Pin!", message: nsError.localizedDescription)
-                }
+                saveBlock()
             }
         }
     }

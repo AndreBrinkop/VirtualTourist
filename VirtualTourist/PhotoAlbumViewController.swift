@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import MapKit
 
-class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
+class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NSFetchedResultsControllerDelegate {
     
     // MARK: Properties
 
@@ -19,11 +19,27 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
     @IBOutlet var collectionView: UICollectionView!
     
     var pin: Pin!
-    var sortedPhotos : [Photo] {
-        get {
-            let photos = pin!.photos?.allObjects as! [Photo]
-            let sortedPhotos = photos.sorted(by: { $0.path! < $1.path! })
-            return sortedPhotos
+
+    var fetchedResultsController: NSFetchedResultsController<Photo>!
+    
+    func initializeFetchedResultsController() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let request: NSFetchRequest<Photo> = Photo.fetchRequest()
+        
+        let predicate = NSPredicate(format: "pin = %@", pin)
+        let sortDescriptor = NSSortDescriptor(key: "path", ascending: true)
+        
+        request.predicate = predicate
+        
+        request.sortDescriptors = [sortDescriptor]
+
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: appDelegate.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            appDelegate.showErrorMessage(title: "Failed to fetch stored Photos!", message: error.localizedDescription)
         }
     }
     
@@ -31,7 +47,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        initializeFetchedResultsController()
         initializeMapView()
     }
     
@@ -50,25 +66,79 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
     // MARK: Collection View Data Source
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return pin.photos!.count
+        let sections = fetchedResultsController.sections!
+        let sectionInfo = sections[section]
+        return sectionInfo.numberOfObjects
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! PhotoCollectionViewCell
-        
-        // reset cell
-        photoCell.imageView.image = nil
-        photoCell.activityIndicator.startAnimating()
-
-        let photo = sortedPhotos[indexPath.row]
-        
-        if let imageData = photo.imageData {
-            let image = UIImage(data: imageData as Data)
-            photoCell.imageView.image = image
-            photoCell.activityIndicator.stopAnimating()
-        }
-
-        return photoCell
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return fetchedResultsController.sections!.count
     }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath)
+        // Set up the cell
+        configureCell(cell: cell, indexPath: indexPath)
+        
+        return cell
+    }
+    
+    // MARK: Configure PhotoCollectionViewCells
+    
+    func configureCell(cell: UICollectionViewCell?, indexPath: IndexPath) {
+        guard let cell = cell as? PhotoCollectionViewCell else {
+            return
+        }
+        
+        let selectedPhoto = fetchedResultsController.object(at: indexPath)
+        
+        DispatchQueue.main.async {
+            // reset cell
+            cell.imageView.image = nil
+            cell.activityIndicator.startAnimating()
+            
+            if let imageData = selectedPhoto.imageData {
+                let image = UIImage(data: imageData as Data)
+                cell.imageView.image = image
+                cell.activityIndicator.stopAnimating()
+            }
+        }
+    }
+    
+    // MARK: Fetched Results Controller Delegate
+    
+    private var blockOperations: [BlockOperation] = []
+    
+    func controllerWillChangeContent(_: NSFetchedResultsController<NSFetchRequestResult>) {
+        blockOperations.removeAll(keepingCapacity: false)
+    }
+    
+    func controllerDidChangeContent(_: NSFetchedResultsController<NSFetchRequestResult>) {
+        collectionView.performBatchUpdates({
+            self.blockOperations.forEach { $0.start() }
+        }, completion: { finished in
+            self.blockOperations.removeAll(keepingCapacity: false)
+        })
+    }
+
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        var op = BlockOperation {}
+        
+        switch type {
+        case .insert:
+            op = BlockOperation { self.collectionView.insertItems(at: [newIndexPath!]) }
+        case .delete:
+            op = BlockOperation { self.collectionView.deleteItems(at: [newIndexPath!]) }
+            blockOperations.append(op)
+        case .update:
+            op = BlockOperation { self.configureCell(cell: self.collectionView.cellForItem(at: indexPath!), indexPath: indexPath!) }
+        case .move:
+            op = BlockOperation { self.collectionView.moveItem(at: indexPath!, to: newIndexPath!) }
+        }
+        
+        blockOperations.append(op)
+    }
+    
 
 }
