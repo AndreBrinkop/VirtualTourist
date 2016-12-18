@@ -61,6 +61,7 @@ extension Pin {
                 guard let urls = urls, error == nil else {
                     self.loadedPhotos = true
                     saveBlock()
+                    appDelegate.showErrorMessage(title: "Could not fetch Photos for new Pin!", message: error!.localizedDescription)
                     return
                 }
                 
