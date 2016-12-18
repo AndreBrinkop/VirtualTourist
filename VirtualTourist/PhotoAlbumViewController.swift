@@ -24,6 +24,18 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NS
 
     var fetchedResultsController: NSFetchedResultsController<Photo>!
     
+    var allPhotosLoaded = false
+
+    
+    // MARK: Initialization
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        initializeFetchedResultsController()
+        initializeMapView()
+        configurePhotoAlbum()
+    }
+    
     func initializeFetchedResultsController() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let request: NSFetchRequest<Photo> = Photo.fetchRequest()
@@ -34,7 +46,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NS
         request.predicate = predicate
         
         request.sortDescriptors = [sortDescriptor]
-
+        
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: appDelegate.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         
@@ -43,15 +55,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NS
         } catch {
             appDelegate.showErrorMessage(title: "Failed to fetch stored Photos!", message: error.localizedDescription)
         }
-    }
-    
-    // MARK: Initialization
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        initializeFetchedResultsController()
-        initializeMapView()
-        configurePhotoAlbum()
     }
     
     func initializeMapView() {
@@ -65,6 +68,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NS
         let mapRegion = MKCoordinateRegionMake(pin.coordinate, mapSpan)
         mapView.setRegion(mapRegion, animated: false)
     }
+    
+    // Configure UI
     
     func configurePhotoAlbum(){
         let loadedPhotoCount = collectionView(collectionView, numberOfItemsInSection: 0)
@@ -92,7 +97,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NS
     }
     
     func configureToolBarButton() {
-        if pin.loadedPhotos {
+        if areAllPhotosLoaded() {
             photoAlbumToolbarButton.isEnabled = true
             return
         }
@@ -179,6 +184,22 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NS
         }, completion: { finished in
             self.blockOperations.removeAll(keepingCapacity: false)
         })
+    }
+    
+    // MARK: Helper
+    
+    func areAllPhotosLoaded() -> Bool {
+        guard let results = fetchedResultsController.fetchedObjects, pin.loadedPhotos else {
+            return false
+        }
+        
+        for photo in results {
+            if photo.imageData == nil {
+                return false
+            }
+        }
+        
+        return true
     }
 
 }
