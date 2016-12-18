@@ -15,8 +15,10 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NS
     // MARK: Properties
 
     @IBOutlet var mapView: MKMapView!
-    @IBOutlet var emptyCollectionLabel: UILabel!
+    @IBOutlet var loadingPhotosActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet var emptyAlbumLabel: UILabel!
     @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet var photoAlbumToolbarButton: UIBarButtonItem!
     
     var pin: Pin!
 
@@ -49,6 +51,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NS
         super.viewDidLoad()
         initializeFetchedResultsController()
         initializeMapView()
+        configurePhotoAlbum()
     }
     
     func initializeMapView() {
@@ -61,6 +64,39 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NS
         let mapSpan = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         let mapRegion = MKCoordinateRegionMake(pin.coordinate, mapSpan)
         mapView.setRegion(mapRegion, animated: false)
+    }
+    
+    func configurePhotoAlbum(){
+        let loadedPhotoCount = collectionView(collectionView, numberOfItemsInSection: 0)
+        
+        guard loadedPhotoCount > 0 else {
+            if pin.loadedPhotos {
+                // did not find photos
+                emptyAlbumLabel.text = "No Photos Found!"
+                loadingPhotosActivityIndicator.stopAnimating()
+            } else {
+                // is loading photos
+                emptyAlbumLabel.text = "Loading Photos.."
+                loadingPhotosActivityIndicator.startAnimating()
+            }
+            
+            emptyAlbumLabel.isHidden = false
+            configureToolBarButton()
+            return
+        }
+        
+        // found photos
+        emptyAlbumLabel.isHidden = true
+        loadingPhotosActivityIndicator.stopAnimating()
+        configureToolBarButton()
+    }
+    
+    func configureToolBarButton() {
+        if pin.loadedPhotos {
+            photoAlbumToolbarButton.isEnabled = true
+            return
+        }
+        photoAlbumToolbarButton.isEnabled = false
     }
     
     // MARK: Collection View Data Source
@@ -114,14 +150,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NS
         blockOperations.removeAll(keepingCapacity: false)
     }
     
-    func controllerDidChangeContent(_: NSFetchedResultsController<NSFetchRequestResult>) {
-        collectionView.performBatchUpdates({
-            self.blockOperations.forEach { $0.start() }
-        }, completion: { finished in
-            self.blockOperations.removeAll(keepingCapacity: false)
-        })
-    }
-
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         var op = BlockOperation {}
         
@@ -140,5 +168,17 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NS
         blockOperations.append(op)
     }
     
+    func controllerDidChangeContent(_: NSFetchedResultsController<NSFetchRequestResult>) {
+        
+        DispatchQueue.main.async {
+            self.configurePhotoAlbum()
+        }
+        
+        collectionView.performBatchUpdates({
+            self.blockOperations.forEach { $0.start() }
+        }, completion: { finished in
+            self.blockOperations.removeAll(keepingCapacity: false)
+        })
+    }
 
 }

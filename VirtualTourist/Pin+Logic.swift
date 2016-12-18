@@ -73,6 +73,7 @@ extension Pin {
                     photo.pin = pin
                 }
                 
+                self.loadedPhotos = true
                 saveBlock()
             }
         }
