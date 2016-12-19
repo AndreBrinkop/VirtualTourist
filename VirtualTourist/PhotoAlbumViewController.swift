@@ -18,6 +18,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     @IBOutlet var loadingPhotosActivityIndicator: UIActivityIndicatorView!
     @IBOutlet var emptyAlbumLabel: UILabel!
     @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet var collectionViewFlowLayout: UICollectionViewFlowLayout!
     @IBOutlet var photoAlbumToolbarButton: UIBarButtonItem!
     
     var pin: Pin!
@@ -35,9 +36,9 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.allowsMultipleSelection = true
         initializeFetchedResultsController()
         initializeMapView()
+        initializeCollectionView()
         configurePhotoAlbum()
     }
     
@@ -71,6 +72,19 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         let mapSpan = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         let mapRegion = MKCoordinateRegionMake(pin.coordinate, mapSpan)
         mapView.setRegion(mapRegion, animated: false)
+    }
+    
+    func initializeCollectionView() {
+        collectionView.allowsMultipleSelection = true
+
+        let space:CGFloat = 3.0
+        let dimension = (view.frame.size.width - (2 * space)) / 3.0
+        
+        if let collectionViewFlowLayout = collectionViewFlowLayout {
+            collectionViewFlowLayout.minimumInteritemSpacing = space
+            collectionViewFlowLayout.minimumLineSpacing = space
+            collectionViewFlowLayout.itemSize = CGSize(width: dimension, height: dimension)
+        }
     }
     
     // MARK: Configure UI

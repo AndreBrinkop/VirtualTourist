@@ -244,6 +244,7 @@ Cg
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="collectionView" destination="tw9-94-5wz" id="vSu-m1-Cgi"/>
+                        <outlet property="collectionViewFlowLayout" destination="bt7-nn-wRf" id="ERa-J6-5MT"/>
                         <outlet property="emptyAlbumLabel" destination="a7L-A9-XYZ" id="ghf-uU-GJb"/>
                         <outlet property="loadingPhotosActivityIndicator" destination="jZt-vK-adR" id="95m-Qn-0ho"/>
                         <outlet property="mapView" destination="GPM-XB-cmu" id="Jov-hQ-Asi"/>
