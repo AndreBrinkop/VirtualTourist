@@ -12,6 +12,20 @@ import CoreData
 
 extension Photo {
     
+    // MARK: Properties
+    
+    var isLoading : Bool {
+        get {
+            return imageData == nil && downloadingImageData
+        }
+    }
+    
+    var errorWhileLoading : Bool {
+        get {
+            return imageData == nil && !downloadingImageData
+        }
+    }
+    
     // MARK: Initialization
     
     convenience init(url: URL, context: NSManagedObjectContext) {
@@ -27,24 +41,20 @@ extension Photo {
     }
     
     func loadImage() {
+        downloadingImageData = true
         FlickrClient.getImageDataForPath(path: URL(string: path!)!) { imageData, error in
-            guard let imageData = imageData, error == nil else {
-                return
-            }
             
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.persistentContainer.performBackgroundTask() { block in
                 // Copy photo to background context
                 let photo = block.object(with: self.objectID) as! Photo
                 
-                photo.imageData = imageData as NSData
-                
-                do {
-                    try block.save()
-                } catch {
-                    let nsError = error as NSError
-                    appDelegate.showErrorMessage(title: "Could not save Photo!", message: nsError.localizedDescription)
+                if let imageData = imageData, error == nil {
+                    photo.imageData = imageData as NSData
                 }
+                
+                photo.downloadingImageData = false
+                appDelegate.saveContext(block)
             }
         }
     }

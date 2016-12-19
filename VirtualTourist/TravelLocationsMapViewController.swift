@@ -190,7 +190,5 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
         userDefaults.set(mapView.region.span.latitudeDelta, forKey: Constants.userDefaults.mapLatitudeDelta)
         userDefaults.set(mapView.region.span.longitudeDelta, forKey: Constants.userDefaults.mapLongitudeDelta)
     }
-
-
 }
 

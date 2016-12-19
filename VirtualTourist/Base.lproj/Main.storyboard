@@ -112,24 +112,58 @@
                                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="hB6-5o-2S4">
                                                                     <rect key="frame" x="57" y="57" width="37" height="37"/>
                                                                 </activityIndicatorView>
+                                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="faT-vo-Rgh" userLabel="errorLabel">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                                                                    <color key="backgroundColor" red="0.80039148039999997" green="0.8083161485" blue="0.8083161485" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <attributedString key="attributedText">
+                                                                        <fragment content="Could not load photo!">
+                                                                            <attributes>
+                                                                                <font key="NSFont" size="13" name=".AppleSystemUIFont"/>
+                                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                            </attributes>
+                                                                        </fragment>
+                                                                        <fragment>
+                                                                            <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                                                            <attributes>
+                                                                                <font key="NSFont" metaFont="system" size="15"/>
+                                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                            </attributes>
+                                                                        </fragment>
+                                                                        <fragment content="Tap to Retry!">
+                                                                            <attributes>
+                                                                                <font key="NSFont" size="18" name=".SFNSText"/>
+                                                                                <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                            </attributes>
+                                                                        </fragment>
+                                                                    </attributedString>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
                                                             </subviews>
                                                         </view>
                                                         <constraints>
+                                                            <constraint firstAttribute="bottom" secondItem="faT-vo-Rgh" secondAttribute="bottom" id="Axh-e9-u1V"/>
                                                             <constraint firstAttribute="bottom" secondItem="Te8-kf-YtF" secondAttribute="bottom" constant="2" id="LhX-bQ-Ruw"/>
                                                             <constraint firstAttribute="trailing" secondItem="Te8-kf-YtF" secondAttribute="trailing" constant="2" id="MDc-3d-lKm"/>
+                                                            <constraint firstItem="faT-vo-Rgh" firstAttribute="top" secondItem="RR0-2Y-UhI" secondAttribute="top" id="NLm-q3-0dD"/>
+                                                            <constraint firstItem="faT-vo-Rgh" firstAttribute="leading" secondItem="RR0-2Y-UhI" secondAttribute="leading" id="Oyk-As-4bd"/>
                                                             <constraint firstItem="hB6-5o-2S4" firstAttribute="centerX" secondItem="RR0-2Y-UhI" secondAttribute="centerX" id="WUu-kn-tlm"/>
                                                             <constraint firstItem="hB6-5o-2S4" firstAttribute="centerY" secondItem="RR0-2Y-UhI" secondAttribute="centerY" id="bAf-Ag-UoE"/>
                                                             <constraint firstItem="Te8-kf-YtF" firstAttribute="leading" secondItem="RR0-2Y-UhI" secondAttribute="leading" constant="2" id="fCZ-Um-Mtl"/>
+                                                            <constraint firstAttribute="trailing" secondItem="faT-vo-Rgh" secondAttribute="trailing" id="itV-Oh-8jO"/>
                                                             <constraint firstItem="Te8-kf-YtF" firstAttribute="top" secondItem="RR0-2Y-UhI" secondAttribute="top" constant="2" id="kCt-uM-LRe"/>
                                                         </constraints>
                                                         <connections>
                                                             <outlet property="activityIndicator" destination="hB6-5o-2S4" id="Nwy-rK-LFJ"/>
+                                                            <outlet property="errorLabel" destination="faT-vo-Rgh" id="FbG-lX-iJg"/>
                                                             <outlet property="imageView" destination="Te8-kf-YtF" id="9Mg-uN-WRE"/>
                                                         </connections>
                                                     </collectionViewCell>
                                                 </cells>
                                                 <connections>
                                                     <outlet property="dataSource" destination="Xuv-c2-fdJ" id="Sb5-Qu-jrr"/>
+                                                    <outlet property="delegate" destination="Xuv-c2-fdJ" id="m6O-Zg-IVD"/>
                                                 </connections>
                                             </collectionView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Xtt-e0-XsD">

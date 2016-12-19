@@ -12,5 +12,12 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet var errorLabel: UILabel!
+    
+    override var isSelected: Bool {
+        didSet {
+            self.contentView.alpha = isSelected ? 0.6 : 1.0
+        }
+    }
     
 }

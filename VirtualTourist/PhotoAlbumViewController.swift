@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import MapKit
 
-class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NSFetchedResultsControllerDelegate {
+class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, NSFetchedResultsControllerDelegate {
     
     // MARK: Properties
 
@@ -31,6 +31,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NS
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        collectionView.allowsMultipleSelection = true
         initializeFetchedResultsController()
         initializeMapView()
         configurePhotoAlbum()
@@ -69,7 +70,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NS
         mapView.setRegion(mapRegion, animated: false)
     }
     
-    // Configure UI
+    // MARK: Configure UI
     
     func configurePhotoAlbum(){
         let loadedPhotoCount = collectionView(collectionView, numberOfItemsInSection: 0)
@@ -104,6 +105,29 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NS
         photoAlbumToolbarButton.isEnabled = false
     }
     
+    // MARK: Collection View Delegate
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        let selectedPhoto = fetchedResultsController.object(at: indexPath)
+        let selectedCell = collectionView.cellForItem(at: indexPath)!
+
+        guard selectedCell.isSelected == false else {
+            collectionView.deselectItem(at: indexPath, animated: false)
+            return false
+        }
+        
+        guard selectedPhoto.errorWhileLoading == false else {
+            selectedPhoto.loadImage()
+            return false
+        }
+        
+        guard selectedPhoto.isLoading == false else {
+            return false
+        }
+        
+        return true
+    }
+    
     // MARK: Collection View Data Source
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -135,15 +159,25 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, NS
         let selectedPhoto = fetchedResultsController.object(at: indexPath)
         
         DispatchQueue.main.async {
-            // reset cell
-            cell.imageView.image = nil
-            cell.activityIndicator.startAnimating()
-            
-            if let imageData = selectedPhoto.imageData {
-                let image = UIImage(data: imageData as Data)
-                cell.imageView.image = image
+            guard selectedPhoto.errorWhileLoading == false else {
+                // error while loading
+                cell.errorLabel.isHidden = false
                 cell.activityIndicator.stopAnimating()
+                return
             }
+            
+            guard selectedPhoto.isLoading == false else {
+                // loading image
+                cell.imageView.image = nil
+                cell.errorLabel.isHidden = true
+                cell.activityIndicator.startAnimating()
+                return
+            }
+            
+            // loaded image
+            let image = UIImage(data: selectedPhoto.imageData! as Data)
+            cell.imageView.image = image
+            cell.activityIndicator.stopAnimating()
         }
     }
     
