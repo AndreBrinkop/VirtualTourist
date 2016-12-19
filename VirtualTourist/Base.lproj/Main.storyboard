@@ -219,7 +219,11 @@ Cg
                                         </constraints>
                                         <items>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="iqY-vt-xLu"/>
-                                            <barButtonItem title="New Collection" id="5hX-7K-6dP" userLabel="PhotoAlbumToolbarButton"/>
+                                            <barButtonItem title="New Collection" id="5hX-7K-6dP" userLabel="PhotoAlbumToolbarButton">
+                                                <connections>
+                                                    <action selector="pressedToolbarButton:" destination="Xuv-c2-fdJ" id="ZS6-tg-WLD"/>
+                                                </connections>
+                                            </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="I4g-HY-BFX"/>
                                         </items>
                                     </toolbar>

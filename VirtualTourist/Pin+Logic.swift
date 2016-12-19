@@ -19,6 +19,12 @@ extension Pin {
             return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         }
     }
+    
+    var appDelegate: AppDelegate {
+        get {
+            return UIApplication.shared.delegate as! AppDelegate
+        }
+    }
 
     // MARK: Initialization
     
@@ -36,32 +42,31 @@ extension Pin {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.saveContext(context)
         
-        loadNewPhotos()
+        loadNewPhotos(context: context)
     }
 
-    public func loadNewPhotos() {
+    public func loadNewPhotos(context: NSManagedObjectContext) {
         // Just load new photos if photo album is empty
         if photos!.count > 0 {
-            return
+            deleteAllPhotos(context: context)
         }
         loadedPhotos = false
         
         FlickrClient.getImageURLsForLocation(coordinate: coordinate) { urls, error in
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.persistentContainer.performBackgroundTask() { block in
+            self.appDelegate.persistentContainer.performBackgroundTask() { block in
                 func saveBlock() {
                     do {
                         try block.save()
                     } catch {
                         let nsError = error as NSError
-                        appDelegate.showErrorMessage(title: "Could not save Pin!", message: nsError.localizedDescription)
+                        self.appDelegate.showErrorMessage(title: "Could not save Pin!", message: nsError.localizedDescription)
                     }
                 }
                 
                 guard let urls = urls, error == nil else {
                     self.loadedPhotos = true
                     saveBlock()
-                    appDelegate.showErrorMessage(title: "Could not fetch Photos for new Pin!", message: error!.localizedDescription)
+                    self.appDelegate.showErrorMessage(title: "Could not fetch Photos for new Pin!", message: error!.localizedDescription)
                     return
                 }
                 
@@ -77,6 +82,11 @@ extension Pin {
                 saveBlock()
             }
         }
+    }
+    
+    public func deleteAllPhotos(context: NSManagedObjectContext) {
+        let _ = photos?.allObjects.map() { context.delete($0 as! NSManagedObject) }
+        appDelegate.saveContext(context)
     }
 
 }

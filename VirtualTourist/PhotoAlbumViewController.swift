@@ -23,8 +23,12 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     var pin: Pin!
 
     var fetchedResultsController: NSFetchedResultsController<Photo>!
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     var allPhotosLoaded = false
+    
+    let newCollectionString = "New Collection"
+    let removeSelectedPhotosString = "Remove Selected Photos"
 
     
     // MARK: Initialization
@@ -38,7 +42,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     }
     
     func initializeFetchedResultsController() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let request: NSFetchRequest<Photo> = Photo.fetchRequest()
         
         let predicate = NSPredicate(format: "pin = %@", pin)
@@ -98,6 +101,13 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     }
     
     func configureToolBarButton() {
+        if !collectionView.indexPathsForSelectedItems!.isEmpty {
+            photoAlbumToolbarButton.isEnabled = true
+            photoAlbumToolbarButton.title = removeSelectedPhotosString
+            return
+        }
+        
+        photoAlbumToolbarButton.title = newCollectionString
         if areAllPhotosLoaded() {
             photoAlbumToolbarButton.isEnabled = true
             return
@@ -126,6 +136,14 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         }
         
         return true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        configureToolBarButton()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        configureToolBarButton()
     }
     
     // MARK: Collection View Data Source
@@ -196,7 +214,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         case .insert:
             op = BlockOperation { self.collectionView.insertItems(at: [newIndexPath!]) }
         case .delete:
-            op = BlockOperation { self.collectionView.deleteItems(at: [newIndexPath!]) }
+            op = BlockOperation { self.collectionView.deleteItems(at: [indexPath!]) }
             blockOperations.append(op)
         case .update:
             op = BlockOperation { self.configureCell(cell: self.collectionView.cellForItem(at: indexPath!), indexPath: indexPath!) }
@@ -218,6 +236,28 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         }, completion: { finished in
             self.blockOperations.removeAll(keepingCapacity: false)
         })
+    }
+    
+    // MARK: Toolbar Button Action
+    
+    @IBAction func pressedToolbarButton(_ sender: UIBarButtonItem) {
+        let context = appDelegate.persistentContainer.viewContext
+
+        if sender.title == newCollectionString {
+            pin.loadNewPhotos(context: context)
+        }
+        
+        if sender.title == removeSelectedPhotosString {
+            let selectedPhotos: [Photo] = collectionView.indexPathsForSelectedItems!.map() { fetchedResultsController.object(at: $0)}
+            
+            context.perform() {
+                let _ = selectedPhotos.map() { context.delete($0) }
+                self.appDelegate.saveContext()
+            }
+            
+        }
+        
+        configureToolBarButton()
     }
     
     // MARK: Helper
