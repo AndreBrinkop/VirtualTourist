@@ -106,7 +106,7 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Te8-kf-YtF">
-                                                                    <rect key="frame" x="2" y="2" width="146" height="146"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                                                     <color key="backgroundColor" red="0.80039148039999997" green="0.8083161485" blue="0.8083161485" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 </imageView>
                                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="hB6-5o-2S4">
@@ -140,24 +140,44 @@ Cg
                                                                     </attributedString>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
+                                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nLP-PT-sgp" userLabel="trashOverlay">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                                                                    <subviews>
+                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Trash" translatesAutoresizingMaskIntoConstraints="NO" id="Dtj-rc-1nq" userLabel="Trash">
+                                                                            <rect key="frame" x="45" y="45" width="60" height="60"/>
+                                                                        </imageView>
+                                                                    </subviews>
+                                                                    <color key="backgroundColor" red="0.80039148039999997" green="0.8083161485" blue="0.8083161485" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <constraints>
+                                                                        <constraint firstItem="Dtj-rc-1nq" firstAttribute="centerY" secondItem="nLP-PT-sgp" secondAttribute="centerY" id="K6g-xD-Fh3"/>
+                                                                        <constraint firstItem="Dtj-rc-1nq" firstAttribute="width" secondItem="nLP-PT-sgp" secondAttribute="width" multiplier="0.4" id="Xug-4F-dzc"/>
+                                                                        <constraint firstItem="Dtj-rc-1nq" firstAttribute="height" secondItem="nLP-PT-sgp" secondAttribute="height" multiplier="0.4" id="i5F-8q-c6S"/>
+                                                                        <constraint firstItem="Dtj-rc-1nq" firstAttribute="centerX" secondItem="nLP-PT-sgp" secondAttribute="centerX" id="y4h-PH-M1C"/>
+                                                                    </constraints>
+                                                                </view>
                                                             </subviews>
                                                         </view>
                                                         <constraints>
                                                             <constraint firstAttribute="bottom" secondItem="faT-vo-Rgh" secondAttribute="bottom" id="Axh-e9-u1V"/>
-                                                            <constraint firstAttribute="bottom" secondItem="Te8-kf-YtF" secondAttribute="bottom" constant="2" id="LhX-bQ-Ruw"/>
-                                                            <constraint firstAttribute="trailing" secondItem="Te8-kf-YtF" secondAttribute="trailing" constant="2" id="MDc-3d-lKm"/>
+                                                            <constraint firstAttribute="bottom" secondItem="nLP-PT-sgp" secondAttribute="bottom" id="DtN-iy-5XA"/>
+                                                            <constraint firstAttribute="trailing" secondItem="nLP-PT-sgp" secondAttribute="trailing" id="GIe-i3-X8O"/>
+                                                            <constraint firstAttribute="bottom" secondItem="Te8-kf-YtF" secondAttribute="bottom" id="LhX-bQ-Ruw"/>
+                                                            <constraint firstAttribute="trailing" secondItem="Te8-kf-YtF" secondAttribute="trailing" id="MDc-3d-lKm"/>
                                                             <constraint firstItem="faT-vo-Rgh" firstAttribute="top" secondItem="RR0-2Y-UhI" secondAttribute="top" id="NLm-q3-0dD"/>
                                                             <constraint firstItem="faT-vo-Rgh" firstAttribute="leading" secondItem="RR0-2Y-UhI" secondAttribute="leading" id="Oyk-As-4bd"/>
+                                                            <constraint firstItem="nLP-PT-sgp" firstAttribute="top" secondItem="RR0-2Y-UhI" secondAttribute="top" id="UQ0-69-Ara"/>
                                                             <constraint firstItem="hB6-5o-2S4" firstAttribute="centerX" secondItem="RR0-2Y-UhI" secondAttribute="centerX" id="WUu-kn-tlm"/>
                                                             <constraint firstItem="hB6-5o-2S4" firstAttribute="centerY" secondItem="RR0-2Y-UhI" secondAttribute="centerY" id="bAf-Ag-UoE"/>
-                                                            <constraint firstItem="Te8-kf-YtF" firstAttribute="leading" secondItem="RR0-2Y-UhI" secondAttribute="leading" constant="2" id="fCZ-Um-Mtl"/>
+                                                            <constraint firstItem="Te8-kf-YtF" firstAttribute="leading" secondItem="RR0-2Y-UhI" secondAttribute="leading" id="fCZ-Um-Mtl"/>
+                                                            <constraint firstItem="nLP-PT-sgp" firstAttribute="leading" secondItem="RR0-2Y-UhI" secondAttribute="leading" id="hV4-cm-8xF"/>
                                                             <constraint firstAttribute="trailing" secondItem="faT-vo-Rgh" secondAttribute="trailing" id="itV-Oh-8jO"/>
-                                                            <constraint firstItem="Te8-kf-YtF" firstAttribute="top" secondItem="RR0-2Y-UhI" secondAttribute="top" constant="2" id="kCt-uM-LRe"/>
+                                                            <constraint firstItem="Te8-kf-YtF" firstAttribute="top" secondItem="RR0-2Y-UhI" secondAttribute="top" id="kCt-uM-LRe"/>
                                                         </constraints>
                                                         <connections>
                                                             <outlet property="activityIndicator" destination="hB6-5o-2S4" id="Nwy-rK-LFJ"/>
                                                             <outlet property="errorLabel" destination="faT-vo-Rgh" id="FbG-lX-iJg"/>
                                                             <outlet property="imageView" destination="Te8-kf-YtF" id="9Mg-uN-WRE"/>
+                                                            <outlet property="trashOverlay" destination="nLP-PT-sgp" id="OXH-Ry-xx2"/>
                                                         </connections>
                                                     </collectionViewCell>
                                                 </cells>
@@ -249,4 +269,7 @@ Cg
             <point key="canvasLocation" x="234" y="123"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Trash" width="75" height="75"/>
+    </resources>
 </document>
