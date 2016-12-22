@@ -122,7 +122,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         }
         
         photoAlbumToolbarButton.title = newCollectionString
-        if areAllPhotosLoaded() {
+        if isLoadingComplete() {
             photoAlbumToolbarButton.isEnabled = true
             return
         }
@@ -133,6 +133,9 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         let selectedPhoto = fetchedResultsController.object(at: indexPath)
+        
+        print(selectedPhoto.isLoading)
+        
         let selectedCell = collectionView.cellForItem(at: indexPath)!
 
         guard selectedCell.isSelected == false else {
@@ -141,7 +144,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         }
         
         guard selectedPhoto.errorWhileLoading == false else {
-            selectedPhoto.loadImage()
+            selectedPhoto.loadImage(context: appDelegate.persistentContainer.viewContext)
             return false
         }
         
@@ -209,6 +212,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
             // loaded image
             let image = UIImage(data: selectedPhoto.imageData! as Data)
             cell.imageView.image = image
+            cell.errorLabel.isHidden = true
             cell.activityIndicator.stopAnimating()
         }
     }
@@ -276,13 +280,13 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     
     // MARK: Helper
     
-    func areAllPhotosLoaded() -> Bool {
+    func isLoadingComplete() -> Bool {
         guard let results = fetchedResultsController.fetchedObjects, pin.loadedPhotos else {
             return false
         }
         
         for photo in results {
-            if photo.imageData == nil {
+            if photo.isLoading {
                 return false
             }
         }

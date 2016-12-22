@@ -36,16 +36,19 @@ extension Photo {
         self.init(entity: entity, insertInto: context)
         
         path = url.absoluteString
-        
-        loadImage()
+        downloadingImageData = false
+
     }
     
-    func loadImage() {
+    func loadImage(context: NSManagedObjectContext) {
         downloadingImageData = true
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.saveContext(context)
+
         FlickrClient.getImageDataForPath(path: URL(string: path!)!) { imageData, error in
-            
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.persistentContainer.performBackgroundTask() { block in
+                block.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+                
                 // Copy photo to background context
                 let photo = block.object(with: self.objectID) as! Photo
                 

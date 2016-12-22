@@ -70,12 +70,20 @@ extension Pin {
                     return
                 }
                 
+                block.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+                
                 // Copy pin to background context
                 let pin = block.object(with: self.objectID) as! Pin
                 
+                // Initialize photos
                 for url in urls {
                     let photo = Photo(url: url, context: block)
                     photo.pin = pin
+                }
+                
+                // Load photos
+                for photo in pin.photos!.allObjects {
+                    (photo as! Photo).loadImage(context: block)
                 }
                 
                 self.loadedPhotos = true
