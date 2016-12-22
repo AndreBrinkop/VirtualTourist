@@ -76,18 +76,19 @@ extension Pin {
                 let pin = block.object(with: self.objectID) as! Pin
                 
                 // Initialize photos
+                var photos = [Photo]()
                 for url in urls {
-                    let photo = Photo(url: url, context: block)
-                    photo.pin = pin
-                }
-                
-                // Load photos
-                for photo in pin.photos!.allObjects {
-                    (photo as! Photo).loadImage(context: block)
+                    let photo = Photo(pin: pin, url: url, context: block)
+                    photos.append(photo)
                 }
                 
                 self.loadedPhotos = true
                 saveBlock()
+                
+                // load photos
+                for photo in photos {
+                    photo.loadImage()
+                }
             }
         }
     }

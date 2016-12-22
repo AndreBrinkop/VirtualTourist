@@ -28,30 +28,32 @@ extension Photo {
     
     // MARK: Initialization
     
-    convenience init(url: URL, context: NSManagedObjectContext) {
+    convenience init(pin: Pin, url: URL, context: NSManagedObjectContext) {
         guard let entity = NSEntityDescription.entity(forEntityName: "Photo", in: context) else {
             fatalError("Unable to find Entity name!")
         }
         
         self.init(entity: entity, insertInto: context)
         
+        self.pin = pin
         path = url.absoluteString
-        downloadingImageData = false
-
+        downloadingImageData = true
     }
     
-    func loadImage(context: NSManagedObjectContext) {
-        downloadingImageData = true
+    func loadImage() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.saveContext(context)
-
-        FlickrClient.getImageDataForPath(path: URL(string: path!)!) { imageData, error in
-            appDelegate.persistentContainer.performBackgroundTask() { block in
+        appDelegate.persistentContainer.performBackgroundTask() { block in
+            
+            // Copy photo to background context
+            let photo = block.object(with: self.objectID) as! Photo
+            
+            photo.downloadingImageData = true
+            
+            appDelegate.saveContext(block)
+            
+            FlickrClient.getImageDataForPath(path: URL(string: photo.path!)!) { imageData, error in
                 block.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-                
-                // Copy photo to background context
-                let photo = block.object(with: self.objectID) as! Photo
-                
+      
                 if let imageData = imageData, error == nil {
                     photo.imageData = imageData as NSData
                 }

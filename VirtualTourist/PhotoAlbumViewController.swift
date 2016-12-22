@@ -142,8 +142,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         let selectedPhoto = fetchedResultsController.object(at: indexPath)
         
-        print(selectedPhoto.isLoading)
-        
         let selectedCell = collectionView.cellForItem(at: indexPath)!
 
         guard selectedCell.isSelected == false else {
@@ -152,7 +150,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         }
         
         guard selectedPhoto.errorWhileLoading == false else {
-            selectedPhoto.loadImage(context: appDelegate.persistentContainer.viewContext)
+            selectedPhoto.loadImage()
             return false
         }
         
@@ -284,6 +282,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         }
         
         configureToolBarButton()
+        configurePhotoAlbum()
     }
     
     // MARK: Helper
