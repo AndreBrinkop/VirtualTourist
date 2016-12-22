@@ -76,18 +76,26 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     
     func initializeCollectionView() {
         collectionView.allowsMultipleSelection = true
-
-        let space:CGFloat = 3.0
-        let dimension = (view.frame.size.width - (2 * space)) / 3.0
-        
-        if let collectionViewFlowLayout = collectionViewFlowLayout {
-            collectionViewFlowLayout.minimumInteritemSpacing = space
-            collectionViewFlowLayout.minimumLineSpacing = space
-            collectionViewFlowLayout.itemSize = CGSize(width: dimension, height: dimension)
-        }
+        updateFlowLayout(windowSize: view.frame.size)
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        updateFlowLayout(windowSize: size)
     }
     
     // MARK: Configure UI
+    
+    func updateFlowLayout(windowSize: CGSize) {
+        let cellsPerRow: Int = max(3, Int(windowSize.width) / 250)
+        
+        let dimension = windowSize.width / CGFloat(cellsPerRow)
+        
+        if let collectionViewFlowLayout = collectionViewFlowLayout {
+            collectionViewFlowLayout.minimumInteritemSpacing = 0.0
+            collectionViewFlowLayout.minimumLineSpacing = 0.0
+            collectionViewFlowLayout.itemSize = CGSize(width: dimension, height: dimension)
+        }
+    }
     
     func configurePhotoAlbum(){
         let loadedPhotoCount = collectionView(collectionView, numberOfItemsInSection: 0)
