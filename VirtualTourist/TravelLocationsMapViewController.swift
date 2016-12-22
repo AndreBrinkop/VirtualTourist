@@ -152,9 +152,8 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
                 annotationView.frame.origin.y = annotationView.frame.origin.y - self.view.frame.size.height
             }, completion: { success in
                 mapView.removeAnnotation(annotation)
+                self.deletePin(pin: pin)
             })
-
-            deletePin(pin: pin)
             return
         }
         
