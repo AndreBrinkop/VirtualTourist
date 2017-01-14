@@ -48,18 +48,19 @@ extension Photo {
             let photo = block.object(with: self.objectID) as! Photo
             
             photo.downloadingImageData = true
-            
             appDelegate.saveContext(block)
-            
+
             FlickrClient.getImageDataForPath(path: URL(string: photo.path!)!) { imageData, error in
-                block.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-      
-                if let imageData = imageData, error == nil {
-                    photo.imageData = imageData as NSData
+                block.perform {
+                    block.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+                    
+                    if let imageData = imageData, error == nil {
+                        photo.imageData = imageData as NSData
+                    }
+                    
+                    photo.downloadingImageData = false
+                    appDelegate.saveContext(block)
                 }
-                
-                photo.downloadingImageData = false
-                appDelegate.saveContext(block)
             }
         }
     }

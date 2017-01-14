@@ -82,7 +82,7 @@ extension Pin {
                     photos.append(photo)
                 }
                 
-                self.loadedPhotos = true
+                pin.loadedPhotos = true
                 saveBlock()
                 
                 // load photos
